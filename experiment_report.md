@@ -1,6 +1,6 @@
 # Báo Cáo Thí Nghiệm: Ảnh Hưởng của Data Quality đối với AI Agent
 
-**Student ID:** AI20K-0057
+**Student ID:** 2A202600057
 **Họ và tên:** Hồ Đắc Toàn
 **Ngày thực hiện:** 2026-04-15
 
