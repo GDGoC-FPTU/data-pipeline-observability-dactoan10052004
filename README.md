@@ -2,46 +2,71 @@
 # Day 10 Lab: Data Pipeline & Data Observability
 
 **Student Email:** email@example.com
-**Name:** (Dien ten cua ban)
+**Họ và tên:** Hồ Đắc Toàn
+**Student ID:** AI20K-0057
 
 ---
 
-## Mo ta
+## Mô tả
 
-(Mo ta ngan gon bai lab va nhung gi ban da lam)
+Bài lab này xây dựng một ETL Pipeline tự động hóa để xử lý dữ liệu sản phẩm từ file JSON:
+- **Extract:** Đọc dữ liệu từ `raw_data.json`
+- **Validate:** Loại bỏ record có giá <= 0 hoặc category rỗng
+- **Transform:** Giảm giá 10%, chuẩn hóa category (Title Case), thêm timestamp
+- **Load:** Lưu kết quả ra `processed_data.csv`
+
+Ngoài ra, thí nghiệm Stress Test được thực hiện để chứng minh tầm quan trọng của Data Quality đối với AI Agent.
 
 ---
 
-## Cach chay (How to Run)
+## Cách chạy (How to Run)
 
-### Prerequisites
+### Yêu cầu cài đặt
 ```bash
-pip install pandas
+pip install pandas pytest
 ```
 
-### Chay ETL Pipeline
+### Chạy ETL Pipeline
 ```bash
 python solution.py
 ```
 
-### Chay Agent Simulation (Stress Test)
+### Chạy Agent Simulation (Stress Test)
 ```bash
-# Mo ta cach ban chay thi nghiem Clean vs Garbage data
+# Bước 1: Tạo dữ liệu rác
+python generate_garbage.py
+
+# Bước 2: Chạy Agent với cả 2 bộ dữ liệu
+python agent_simulation.py
+```
+
+### Chạy Tests
+```bash
+pytest tests/
 ```
 
 ---
 
-## Cau truc thu muc
+## Cấu trúc thư mục
 
 ```
-├── solution.py              # ETL Pipeline script
-├── processed_data.csv       # Output cua pipeline
-├── experiment_report.md     # Bao cao thi nghiem
-└── README.md                # File nay
+├── solution.py              # Script ETL Pipeline
+├── agent_simulation.py      # Mô phỏng RAG-like Agent
+├── generate_garbage.py      # Script tạo garbage_data.csv
+├── raw_data.json            # Dữ liệu đầu vào
+├── processed_data.csv       # Output của pipeline (3 records)
+├── garbage_data.csv         # Dữ liệu rác cho stress test
+├── experiment_report.md     # Báo cáo thí nghiệm
+└── README.md                # File này
 ```
 
 ---
 
-## Ket qua
+## Kết quả
 
-(Tom tat ket qua: bao nhieu records da xu ly, bao nhieu bi loai, v.v.)
+- **Tổng số records đọc vào:** 5
+- **Records hợp lệ (processed):** 3 (Laptop, Chair, Monitor)
+- **Records bị loại bỏ:** 2
+  - id=3 (Mystery Box): giá âm (-10)
+  - id=4 (Phone): category rỗng
+- **Output:** `processed_data.csv` với các cột: id, product, price, category, discounted_price, processed_at
